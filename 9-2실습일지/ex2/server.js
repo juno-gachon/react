@@ -51,7 +51,7 @@ const addUser = (req,res)=>{
     const {name, id, passwd} = req.body
     userList.push({keyid:keyid++, name, id, passwd})
     console.log("회원등록요청을 완료하였으며, 이를 반영한 전체목록입니다.")
-    userList.map((user,i)=>{
+    userList.map((user)=>{
         console.log(user.keyid+"."+user.name+"."+user.id+"."+user.passwd)
     })
     return res.send('success')

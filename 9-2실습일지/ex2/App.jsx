@@ -17,18 +17,18 @@ function App(){
     // 회원확인 메세지가 처음에는 출력되지 않게 하기 위해
     const [start, setStart] = useState(true)
 
-    const getUserData = ()=>{
-        // fetch 함수를 이용해 REST API로 회원목록을 요청
-        // GET method는 생략 가능
-        let promise = fetch(serverURL)
-        
-        // fetch는 Promise 객체를 리턴 - 성공적이었다면 then이 실행됨
-        // 이 promise 객체는 then의 파라미터로 전송되며 promise객체에 담긴
-        // 회원목록이 json포맷으로 수신됨
-        promise.then((res)=>res.json())
-        // 앞선 then을 통해 받은 데이터를 setState 함수로 업데이트 함
-        .then((data)=>setUserData(data))
-        .then(console.log(userData))
+    //const getUserData = ()=>{
+    async function getUserData() {
+        // let promise = fetch(serverURL)
+        let res = await fetch(serverURL)
+        // promise.then((res)=>res.json())
+        // let data = res.json() // 이거 하면 안됨  
+        let data = await res.json()
+
+        // .then((data)=>setUserData(data))
+        // .then(console.log(userData))
+        setUserData(data)
+        console.log(userData)
     }
 
     // mount시 서버데이터를 가져오도록 이벤트 처리
@@ -110,6 +110,7 @@ function App(){
                     <input type="text" name="passwd" placeholder="암호"/>
                     <button type="submit">회원확인</button>
                 </form>
+                {/*회원확인메세지가 페이지가 맨 처음 렌더링되었을 때는 실행되지 않게 함*/}
                 {start ? <></> : <IsValidMember />}
             </div>
             <p></p>
