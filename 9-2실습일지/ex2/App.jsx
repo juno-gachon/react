@@ -14,6 +14,9 @@ function App(){
     // 회원 여부 메세지 출력 제어용
     const [memberValid, setMemberValid] = useState(false)
 
+    // 회원확인 메세지가 처음에는 출력되지 않게 하기 위해
+    const [start, setStart] = useState(true)
+
     const getUserData = ()=>{
         // fetch 함수를 이용해 REST API로 회원목록을 요청
         // GET method는 생략 가능
@@ -58,6 +61,10 @@ function App(){
     const memberCheck = (event) => {
         // submit이 되더라도 창이 다시 실행되지 않게 함
         event.preventDefault()
+
+        // 회원확인 메세지가 출력되도록
+        setStart(false)
+
         // form에서 보내진 value 값들을 추출
         const id = event.target.id.value
         const passwd = event.target.passwd.value
@@ -75,7 +82,7 @@ function App(){
     const IsValidMember=()=>{
         return (
             <>
-                {memberValid 
+                {memberValid
                     ? (<p style={{color:"red"}}>회원으로 확인되었습니다.</p>)
                     : (<p style={{color:"red"}}>그런 회원은 없습니다.</p>)
                 }
@@ -103,7 +110,7 @@ function App(){
                     <input type="text" name="passwd" placeholder="암호"/>
                     <button type="submit">회원확인</button>
                 </form>
-                <IsValidMember />
+                {start ? <></> : <IsValidMember />}
             </div>
             <p></p>
             <div>
@@ -117,8 +124,8 @@ function App(){
                     :(
                         userData.map((user)=>(
                             <li key={user.keyid}>
-                                {user.name}
-                                {user.id}
+                                {user.name+" "}
+                                {user.id+" "}
                                 {user.passwd}
                             </li>
                         ))
